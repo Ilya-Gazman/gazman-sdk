@@ -1,1 +1,0 @@
-"C:\air\bin\asdoc.bat" -source-path "C:\dev\Flash\LifeCycle\src" "C:\dev\Flash\GazmanUI\src" -doc-sources . -library-path "C:\dev\Flash\Starling\bin-debug" -output "C:\dev\documents\flash"

@@ -162,6 +162,24 @@ package com.gazman.ui.list
 			Starling.context.setScissorRectangle(null);
 		}
 		
+		override public function getBounds(targetSpace:DisplayObject, resultRect:Rectangle=null):Rectangle{
+			if(!resultRect){
+				resultRect = new Rectangle();
+			}
+			invalidateClipRectangle();
+			resultRect.copyFrom(clipRectBuffer);
+			
+			return resultRect;
+		}
+		
+		override public function hitTest(localPoint:Point, forTouch:Boolean=false):DisplayObject{
+			localToGlobal(localPoint, pointBuffer1);
+			if (clipRectBuffer != null && !clipRectBuffer.containsPoint(pointBuffer1))
+				return null;
+			else
+				return super.hitTest(localPoint, forTouch);
+		}
+		
 		private function validateVerticalDrag(deltaY:Number):Number{
 			var maxValue:Number;
 			deltaY = Math.min(height, Math.abs(deltaY)) * deltaY / Math.abs(deltaY);
@@ -241,24 +259,6 @@ package com.gazman.ui.list
 					}
 				}
 			}while(viewBeenManipulated);
-		}
-		
-//		override public function get width():Number{
-//			return layout.columnsCount * layout.cellWidth;
-//		}
-//		
-//		override public function get height():Number{
-//			return layout.rowsCount * layout.height;
-//		}
-		
-		override public function getBounds(targetSpace:DisplayObject, resultRect:Rectangle=null):Rectangle{
-			if(!resultRect){
-				resultRect = new Rectangle();
-			}
-			invalidateClipRectangle();
-			resultRect.copyFrom(clipRectBuffer);
-			
-			return resultRect;
 		}
 		
 		private function updateCellGlobals(cell:DisplayObject):void
