@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="com.gazman.ui.list.ListStructureData"/>
+    <classEntry path="com.gazman.ui.list.ItemRenderer"/>
+    <classEntry path="com.gazman.ui.drag.SmoothDragHandler"/>
+    <classEntry path="com.gazman.ui.list.ListLayoutData"/>
+    <classEntry path="com.gazman.ui.list.ListViewPort"/>
+    <classEntry path="com.gazman.ui.drag.DragHandler"/>
+    <classEntry path="com.gazman.ui.drag.SimpleDragHandler"/>
+    <classEntry path="com.gazman.ui.drag.RightDragHandler"/>
+    <classEntry path="com.gazman.ui.list.List"/>
+    <classEntry path="com.gazman.ui.expandable_group.ExpandableGroup"/>
+    <classEntry path="com.gazman.ui.expandable_group.VerticalStick"/>
+    <classEntry path="com.gazman.ui.expandable_group.HorizontalStick"/>
+    <classEntry path="com.gazman.ui.expandable_group.Box"/>
+    <classEntry path="com.gazman.ui.utils.setInitListener"/>
+    <classEntry path="com.gazman.ui.tabs_menu.MenuItemData"/>
+    <classEntry path="com.gazman.ui.tabs_menu.MenuGui"/>
+    <classEntry path="com.gazman.ui.group.Group"/>
+    <classEntry path="com.gazman.ui.group.IInitilizeCompleteSignal"/>
+    <classEntry path="com.gazman.ui.group.InitilizeCompleteSignal"/>
+    <classEntry path="com.gazman.ui.group.PrivateSignalListener"/>
+    <classEntry path="com.gazman.ui.list.signals.GridChangedSignal"/>
+    <classEntry path="com.gazman.ui.list.PrivateSignalListener"/>
+    <classEntry path="com.gazman.ui.expandable_group.signals.ISizeChangedSignal"/>
+    <classEntry path="com.gazman.ui.expandable_group.signals.SizeChangedSignal"/>
+    <classEntry path="com.gazman.ui.expandable_group.StrictGroup"/>
+    <classEntry path="com.gazman.ui.drag.signals.drag_begin.IDragBeginSignal"/>
+    <classEntry path="com.gazman.ui.list.drag.signals.drag_begin.DragFinishSignal"/>
+    <classEntry path="com.gazman.ui.drag.signals.drag.IDragSignal"/>
+    <classEntry path="com.gazman.ui.drag.signals.drag.DragSignal"/>
+    <classEntry path="com.gazman.ui.drag.IDragable"/>
+    <classEntry path="com.gazman.ui.layouts.ContainerLayout"/>
+    <classEntry path="com.gazman.ui.utils.ShapeTextur"/>
+    <classEntry path="com.gazman.ui.layouts.AlignLayout"/>
+    <classEntry path="com.gazman.ui.screens.BaseStarlingView"/>
+    <classEntry path="com.gazman.ui.screens.ScreensManager"/>
+    <classEntry path="com.gazman.ui.screens.ScreenConnector"/>
+    <classEntry path="com.gazman.ui.screens.signals.StarlingReadySignal"/>
+    <classEntry path="com.gazman.ui.screens.ScreensRegistrator"/>
+    <classEntry path="com.gazman.ui.screens.BaseScreen"/>
+    <classEntry path="com.gazman.ui.screens.ScreenView"/>
+    <classEntry path="com.gazman.ui.screens.signals.IStarlingIsReady"/>
+    <classEntry path="com.gazman.ui.screens.StrictScreenView"/>
+    <classEntry path="com.gazman.ui.screens.root.RootView"/>
+    <classEntry path="com.gazman.ui.UIRegistrator"/>
+    <classEntry path="com.gazman.ui.list.simple_list.SimpleItemRenderer"/>
+    <classEntry path="com.gazman.ui.list.simple_list.SimpleData"/>
+    <classEntry path="com.gazman.ui.list.simple_list.SimpleList"/>
+    <classEntry path="com.gazman.ui.drag.AnimationListener"/>
+    <classEntry path="com.gazman.ui.layouts.LinearLayout"/>
+    <classEntry path="com.gazman.ui.layouts.Layout"/>
+    <classEntry path="com.gazman.ui.panel.Panel"/>
+    <classEntry path="com.gazman.ui.text.TextInput"/>
+    <classEntry path="com.gazman.ui.text.text_change.ITextChangedSignal"/>
+    <classEntry path="com.gazman.ui.text.text_change.TextChangedSignal"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
