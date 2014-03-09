@@ -1,4 +1,4 @@
-gazman-sdk
+Gazman SDK
 ==========
 
 Gazman SDK is collection of libraries for creating professional games and applications, with Gazman SDK you are getting:
@@ -8,5 +8,8 @@ Gazman SDK is collection of libraries for creating professional games and applic
 * Amazing Performance
 * And a place in our community
  		
-You are welcome to brows for the [Official website](http://gazman-sdk.com)
+You are welcome to browse for the [Official website](http://gazman-sdk.com)
  		
+Dependencies
+==========
+[Starling Game Engine](http://gazman-sdk.com) V1.4.1
