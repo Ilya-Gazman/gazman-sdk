@@ -12,4 +12,4 @@ You are welcome to browse for the [Official website](http://gazman-sdk.com)
  		
 Dependencies
 ==========
-[Starling Game Engine](http://gazman-sdk.com) V1.4.1
+[Starling Game Engine](https://github.com/PrimaryFeather/Starling-Framework) V1.4.1
