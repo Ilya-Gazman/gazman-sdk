@@ -15,6 +15,7 @@ package com.gazman.components
 	import com.gazman.components.list.ListRegistrator;
 	import com.gazman.components.menu.MenuRegistrator;
 	import com.gazman.life_cycle.Context;
+	import com.gazman.life_cycle.inject;
 	import com.gazman.ui.UIRegistrator;
 	
 	public class ComponenetsContext extends Context
@@ -26,11 +27,11 @@ package com.gazman.components
 		
 		override protected function initRegistratorsHandler():void
 		{
-			addRegistrator(new UIRegistrator());
-			addRegistrator(new LayoutRegistrator());
-			addRegistrator(new ListRegistrator());
-			addRegistrator(new MenuRegistrator());
-			addRegistrator(new ExpandableRegistrator());
+			addRegistrator(inject(UIRegistrator));
+			addRegistrator(inject(LayoutRegistrator));
+			addRegistrator(inject(ListRegistrator));
+			addRegistrator(inject(MenuRegistrator));
+			addRegistrator(inject(ExpandableRegistrator));
 		}
 		
 		override protected function initSignalsHandler():void

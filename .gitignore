@@ -1,5 +1,11 @@
 # Build and Release Folders
-bin-debug/
+bin-debug
+bin-release
+bin
+
+# Dependencies
+Starling/
 
 # batch files
 *.bat
+*.metadata

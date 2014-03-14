@@ -42,7 +42,6 @@ package com.gazman.components.list.view.balls
 		override public function updateData(data:Object):void
 		{
 			super.updateData(data);
-			visible = true;
 			if(data != null){
 				textField.text = data.toString();
 			}

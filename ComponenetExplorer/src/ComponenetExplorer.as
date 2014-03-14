@@ -10,14 +10,16 @@
 
 package
 {
+	import com.adobe.viewsource.ViewSource;
 	import com.gazman.components.ComponenetsContext;
 	import com.gazman.ui.screens.root.RootView;
 	
-	[SWF(width="960",height="640",frameRate="60",backgroundColor="#4a4137")]
+	[SWF(width="960",height="640",frameRate="60",backgroundColor="#ffffff")]
 	public class ComponenetExplorer extends RootView
 	{
 		public function ComponenetExplorer()
 		{
+			ViewSource.addMenuItem(this, "srcview/index.html");
 			new ComponenetsContext().initialize();
 		}
 	}

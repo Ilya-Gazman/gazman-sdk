@@ -32,6 +32,7 @@ package com.gazman.ui.list
 		public function updateData(data:Object):void{
 			this.data = data;
 			visible = data != null;
+			touchable = data != null;
 		}
 		
 		/**
