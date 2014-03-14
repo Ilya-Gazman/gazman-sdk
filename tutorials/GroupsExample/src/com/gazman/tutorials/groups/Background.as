@@ -12,6 +12,9 @@ package com.gazman.tutorials.groups
 		
 		override protected function initilize():void
 		{
+			if (subscribeForInitilize(parent as Group)){
+				return;
+			}
 			backgroundCover = new Quad(10, 10, Color.FUCHSIA);
 			addChild(backgroundCover);
 			

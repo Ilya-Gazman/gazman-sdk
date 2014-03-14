@@ -13,11 +13,9 @@ package com.gazman.tutorials.groups
 		
 		override protected function initilize():void
 		{
-			if(!backgroud){
-				backgroud = new Quad(600, 800, Color.BLUE);
-				addChild(backgroud);
-				addChild(menu);
-			}
+			backgroud = new Quad(600, 800, Color.BLUE);
+			addChild(backgroud);
+			addChild(menu);
 			
 			var containerLayout:ContainerLayout = new ContainerLayout();
 			containerLayout.horizontalCenter = 0;

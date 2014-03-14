@@ -70,6 +70,9 @@ package com.gazman.ui.group
 		
 		private function set pandingInitilize(value:Group):void
 		{
+			if(_pandingInitilize == value){
+				return;
+			}
 			var targetPandingInitilize:Group = value;
 			
 			while(targetPandingInitilize != this){
@@ -93,7 +96,7 @@ package com.gazman.ui.group
 		
 		internal final function initilizeCompleteHandler():void
 		{
-			pandingInitilize = null;
+			_pandingInitilize = null;
 			startInitilize();
 		}
 	}

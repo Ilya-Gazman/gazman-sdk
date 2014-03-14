@@ -11,7 +11,7 @@
 package com.gazman.ui.layouts
 {
 	import starling.display.DisplayObject;
-
+	
 	/**
 	 * Layouting one component as he were inside the other
 	 */
@@ -56,30 +56,35 @@ package com.gazman.ui.layouts
 				y = relativeTo.y;
 			}
 			
+			var targetHeight:Number = target.height;
+			var targetWidth:Number = target.width;
+			var relativeToHeight:Number = relativeTo.height;
+			var relativeToWidth:Number = relativeTo.width;
+			
 			if(!isNaN(verticalCenter)){
-				target.y = relativeTo.y + (relativeTo.height - target.height) / 2;
+				target.y = relativeTo.y + (relativeToHeight - targetHeight) / 2;
 			}
 			else if(!isNaN(top)){
 				target.y = top + y;
 				if(!isNaN(bottom)){
-					target.height = relativeTo.height - top - bottom;
+					target.height = relativeToHeight - top - bottom;
 				}
 			}
 			else if(!isNaN(bottom)){
-				target.y = y + relativeTo.height - bottom - target.height;
+				target.y = y + relativeToHeight - bottom - targetHeight;
 			}
 			
 			if(!isNaN(horizontalCenter)){
-				target.x = x + (relativeTo.width - target.width) / 2;
+				target.x = x + (relativeToWidth - targetWidth) / 2;
 			}
 			else if (!isNaN(left)){
 				target.x = x + left;
 				if (!isNaN(right)){
-					target.width = relativeTo.width - left - right;
+					target.width = relativeToWidth - left - right;
 				}
 			}
 			else if(!isNaN(right)){
-				target.x = x + relativeTo.width - target.width - right;
+				target.x = x + relativeToWidth - targetWidth - right;
 			}
 		}
 		

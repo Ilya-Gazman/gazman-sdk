@@ -15,12 +15,12 @@ package com.gazman.tutorials.groups
 			addChild(background);
 			var linearLayout:LinearLayout = new LinearLayout(false);
 			for(var i:int = 0; i < 8; i++){
-				icons[i] = new Quad(50,50, randomColor);
+				icons[i] = new Quad(50, 50, randomColor);
 				addChild(icons[i]);
 				linearLayout.addChildren(icons[i]);
 			}
 			
-			linearLayout.gap = 0;
+			linearLayout.gap = 5;
 			linearLayout.applyLayout();
 		}
 		
