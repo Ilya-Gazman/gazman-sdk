@@ -10,6 +10,8 @@
 
 package com.gazman.life_cycle
 {
+	import com.gazman.life_cycle.utils.reflection.Reflection;
+	
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	
@@ -22,11 +24,18 @@ package com.gazman.life_cycle
 		private var singleTonHash:Dictionary = new Dictionary();
 		private var classMap:Dictionary = new Dictionary(); 
 		
-		public function registerClass(topLevelClass:Class):void{
-			var superClass:Class = getSuperClass(topLevelClass);
-			do{
-				classMap[superClass] = topLevelClass;
-			}while(superClass != null && superClass != SingleTon && superClass != Injector);
+		/**
+		 * 
+		 */
+		public function registerClass(topLevelClass:Class, toWhatEnd:Class = null):void{
+			if(toWhatEnd == null){
+				toWhatEnd = Object;
+			}
+			var reflection:Reflection = new Reflection(topLevelClass);
+			var supeCasses:Vector.<Class> = reflection.getSuperClasses();
+			for(var i:int = 0; i < supeCasses.length && supeCasses[i] != toWhatEnd; i++){
+				classMap[supeCasses[i]] = topLevelClass;
+			}
 		}
 		
 		private function getSuperClass(claz:Class):Class{
@@ -36,19 +45,25 @@ package com.gazman.life_cycle
 		}
 		
 		
-		public function inject(classToReturn:Class):*{
+		/**
+		 * @param classToReturn the class to create or retrive
+		 * @param family used for Multiton pattern to have more than one Singleton from same type in the system
+		 * @return instance of @classToReturn 
+		 * @see http://en.wikipedia.org/wiki/Multiton_pattern
+		 */
+		public function inject(classToReturn:Class, family:String = null):*{
 			var classToUse:Class = classMap[classToReturn];
-			var returnValue:*;
 			if (classToUse == null) {
 				classToUse = classToReturn;
 			}
 			
-			if (isInstance(classToReturn, SingleTon)) {
-				returnValue = getSingleTon(classToUse);
+			var returnValue:*;
+			if (isSingleTon(classToReturn)) {
+				returnValue = getSingleTon(classToUse, family);
 			}
 			else {
 				returnValue = new classToUse();
-				if (returnValue is Injector) {
+				if (returnValue is IInjector) {
 					returnValue.startInjection();
 				}
 			}
@@ -56,13 +71,31 @@ package com.gazman.life_cycle
 			return returnValue;
 		}
 		
-		private function getSingleTon(classToreturn:Class):*{
-			var singleTon:SingleTon = singleTonHash[classToreturn];
-			if (singleTon == null) {
-				singleTon = new classToreturn();
-				singleTonHash[classToreturn] = singleTon;
-				if (singleTon is Injector) {
-					singleTon.startInjection();
+		private function getSingleTon(classToreturn:Class, key:String):*{
+			var singleTon:ISingleTon;
+			if(key){
+				var map:Object = singleTonHash[classToreturn];
+				if(!map){
+					map = new Object();
+					singleTonHash[classToreturn] = map;
+				}
+				singleTon = map[key];
+				if(!singleTon){
+					singleTon = new classToreturn();
+					map[key] = singleTon;
+					if (singleTon is IInjector) {
+						(singleTon as IInjector).injectionHandler();
+					}
+				}
+			}
+			else{
+				singleTon = singleTonHash[classToreturn];
+				if (!singleTon) {
+					singleTon = new classToreturn();
+					singleTonHash[classToreturn] = singleTon;
+					if (singleTon is IInjector) {
+						(singleTon as IInjector).injectionHandler();
+					}
 				}
 			}
 			return singleTon;
@@ -71,12 +104,17 @@ package com.gazman.life_cycle
 		/**
 		 * return if instance of class a can be cast to instant of class b
 		 */
-		private function isInstance(a:Class, b:Class):Boolean{
-			if (int(!a) | int(!b)) {
-				return false;
+		private function isSingleTon(a:Class):Boolean{
+			var reflection:Reflection = new Reflection(a);
+			
+			var intarfaces:Vector.<Class> = reflection.getInterfaces();
+			for(var i:int = 0; i < intarfaces.length; i++){
+				if(intarfaces[i] == ISingleTon){
+					return true;
+				}
 			}
-			// Please ignore this worning. instanceof is necessary here.
-			return (a == b || a.prototype instanceof b);
+			
+			return false;
 		}
 	}
 }

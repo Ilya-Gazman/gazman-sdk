@@ -11,7 +11,6 @@
 package com.gazman.ui
 {
 	import com.gazman.life_cycle.Registrator;
-	import com.gazman.ui.screens.ScreensRegistrator;
 	
 	public class UIRegistrator extends Registrator
 	{
@@ -23,7 +22,7 @@ package com.gazman.ui
 		
 		override protected function initRegistratorsHandler():void
 		{
-			addRegistrator(new ScreensRegistrator());
+			
 		}
 		
 		override protected function initSignalsHandler():void

@@ -44,7 +44,7 @@ package com.gazman.ui.layouts
 		 * @param relativeTo default target.parent
 		 * 
 		 */		
-		override public function applyLayoutOn(target:DisplayObject, relativeTo:DisplayObject = null):void{
+		override protected function applyLayoutHandler(target:DisplayObject, relativeTo:DisplayObject = null):void{
 			if(!relativeTo){
 				relativeTo = target.parent;
 			}
@@ -62,7 +62,7 @@ package com.gazman.ui.layouts
 			var relativeToWidth:Number = relativeTo.width;
 			
 			if(!isNaN(verticalCenter)){
-				target.y = relativeTo.y + (relativeToHeight - targetHeight) / 2;
+				target.y = relativeTo.y + (relativeToHeight - targetHeight) / 2 + verticalCenter;
 			}
 			else if(!isNaN(top)){
 				target.y = top + y;
@@ -75,7 +75,7 @@ package com.gazman.ui.layouts
 			}
 			
 			if(!isNaN(horizontalCenter)){
-				target.x = x + (relativeToWidth - targetWidth) / 2;
+				target.x = x + (relativeToWidth - targetWidth) / 2 + horizontalCenter;
 			}
 			else if (!isNaN(left)){
 				target.x = x + left;

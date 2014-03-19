@@ -25,15 +25,7 @@ package com.gazman.ui.layouts
 		/**
 		 * Set true for vertical layout and false for horizontal layout
 		 */
-		public var verticalLayout:Boolean;
-		
-		/**
-		 * Set true for vertical layout and false for horizontal layout
-		 */
-		public function LinearLayout(isVerticalLayout:Boolean)
-		{
-			this.verticalLayout = isVerticalLayout;
-		}
+		public var verticalLayout:Boolean = false;
 		
 		/**
 		 * Reset 

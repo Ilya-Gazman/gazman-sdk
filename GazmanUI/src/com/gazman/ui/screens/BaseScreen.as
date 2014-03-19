@@ -1,79 +1,50 @@
-// =================================================================================================
-//
-//	Life Cycle Framework
-//	Copyright 2014 Ilya Gazman. All Rights Reserved.
-//
-//	This is not free software. You can redistribute and/or modify it
-//	in accordance with the terms of the accompanying license agreement.
-//  https://github.com/Ilya-Gazman/gazman-sdk/blob/master/LICENSE.md
-// =================================================================================================
-
 package com.gazman.ui.screens
 {
-	import com.gazman.life_cycle.SingleTon;
+	import com.gazman.life_cycle.IInjector;
+	import com.gazman.life_cycle.ISingleTon;
 	import com.gazman.life_cycle.inject;
+	import com.gazman.ui.group.Group;
+	import com.gazman.ui.screens.model.ScreenModel;
 	
-	import starling.events.Event;
-	
-	/**
-	 * Manage the life cycle of ScreenView
-	 */
-	public class BaseScreen extends SingleTon
+	public class BaseScreen extends Group implements ISingleTon, IInjector
 	{
-		private var screenView:ScreenView;
-		private var screensManager:ScreensManager;
-		protected var removeChildOnPause:Boolean = true;
+		protected var family:String = null;
+		/**
+		 * When fifo mode is set, the screen will be aded to the head of the queue. 
+		 * If fifo mode is off, the screen will be pushed to the tail.
+		 */
+		protected var fifoMode:Boolean = true;
+		private var screenModel:ScreenModel;
 		
-		override protected function injectionHandler():void{
-			super.injectionHandler();
-			screensManager = inject(ScreensManager);
-			screenView = createScreenView();
-			if(!screenView){
-				throw new Error("Abstract methode createScreenView() is not implemented");
-			}
-			screenView.startInjection();
-		}
 		
-		internal function create():void{
-			// invokes the initilized
-			if(screensManager.baseView == null){
-				throw new Error("Make sure you register ScreensRegistraror");
-			}
-			screensManager.baseView.addChild(screenView);
-			resume();
-		}
-		
-		internal function pause():void{
-			if(removeChildOnPause){
-				screensManager.baseView.removeChild(screenView);
-			}
-			screenView.pause();
-		}
-		
-		internal function resume():void{
-			if(!screenView.parent){
-				screensManager.baseView.addChild(screenView);
-				screenView.addEventListener(Event.ADDED_TO_STAGE, onAddToStageFromResume);
-			}
-			else{
-				screenView.resume();
-			}
-		}
-		
-		private function onAddToStageFromResume():void
+		public function injectionHandler():void
 		{
-			screenView.removeEventListener(Event.ADDED_TO_STAGE, onAddToStageFromResume);
-			screenView.resume();
+			if(family == null){
+				throw new Error("You must initilize the family parameter in the constractor");
+			}
+			screenModel = inject(ScreenModel, family);
 		}
 		
-		internal function clean():void{
-			pause();
-			screenView.destroy();
+		public function resumeHandler():void{
+			
+		}
+		
+		public function pauseHandler():void{
+			
 		}
 		
 		/**
-		 * An abstract method for creating ScreenView, It is recomand to create the screen using inject().
+		 * Remove the screen from screens stack
 		 */
-		protected function createScreenView():ScreenView{return null}
+		protected final function close():void{
+			screenModel.removeScreen(this);
+		}
+		
+		/**
+		 * Add the screen to screens stack
+		 */
+		protected final function open():void{
+			screenModel.puch(this, fifoMode);
+		}
 	}
 }

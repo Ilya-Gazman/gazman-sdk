@@ -10,22 +10,15 @@
 
 package com.gazman.components.expandlable_group
 {
+	import com.gazman.components.expandlable_group.view.ExpandableScreenView;
 	import com.gazman.components.menu.view.signals.expandable_group.ExpandableSelectedSignal;
 	import com.gazman.life_cycle.Registrator;
 	
 	public class ExpandableRegistrator extends Registrator
 	{
-		override protected function initClassesHandler():void
-		{
-		}
-		
-		override protected function initRegistratorsHandler():void
-		{
-		}
-		
 		override protected function initSignalsHandler():void
 		{
-			registerSignal(ExpandableSelectedSignal, ExpandableConnector);
+			registerSignal(ExpandableSelectedSignal, ExpandableScreenView);
 		}
 	}
 }

@@ -3,6 +3,12 @@
   <includeClasses>
     <classEntry path="com.gazman.life_cycle.inject"/>
     <classEntry path="com.gazman.life_cycle.AbstractRegistrator"/>
+    <classEntry path="com.gazman.life_cycle.ISingleTon"/>
+    <classEntry path="com.gazman.life_cycle.utils.reflection.Reflection"/>
+    <classEntry path="com.gazman.life_cycle.utils.reflection.Parameter"/>
+    <classEntry path="com.gazman.life_cycle.utils.reflection.Method"/>
+    <classEntry path="com.gazman.life_cycle.IInjector"/>
+    <classEntry path="com.gazman.life_cycle.version.Version"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

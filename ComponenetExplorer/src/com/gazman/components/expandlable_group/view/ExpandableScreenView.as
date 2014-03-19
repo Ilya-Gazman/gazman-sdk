@@ -10,26 +10,39 @@
 
 package com.gazman.components.expandlable_group.view
 {
-	import com.gazman.components.default_screen.DefaultMenuScreen;
 	import com.gazman.components.layout.view.Box;
+	import com.gazman.components.menu.view.signals.expandable_group.IExpandableSelectedSignal;
+	import com.gazman.components.screens.menu_screen.DefaultMenuScreen;
+	import com.gazman.life_cycle.inject;
 	import com.gazman.ui.expandable_group.ExpandableGroup;
 	import com.gazman.ui.layouts.AlignLayout;
 	import com.gazman.ui.layouts.ContainerLayout;
 	import com.gazman.ui.utils.ShapeTextur;
+	import com.gazman.ui.utils.SpaceContainer;
 	
 	import starling.display.Button;
 	import starling.events.Event;
 	import starling.utils.Color;
 	
-	public class ExpandableScreenView extends DefaultMenuScreen
+	public class ExpandableScreenView extends DefaultMenuScreen implements IExpandableSelectedSignal
 	{
-		private var box:Box = new Box("A", Color.GREEN, 200);
-		private var expandable:ExpandableGroup = new ExpandableGroup(box);
+		private var box:Box;
+		private var background:SpaceContainer;
+		private var expandable:ExpandableGroup;
 		private var resetButton:Button;
 		
-		override protected function addChildrenHandler():void
+		override public function addChildrenHandler():void
 		{
+			expandable = inject(ExpandableGroup);
+			background = inject(SpaceContainer);
+			box = inject(Box);
+			
+			box.setData("Box", Color.GREEN, 200);
+			expandable.target = box;
+			addChild(background);
+			
 			super.addChildrenHandler();
+			
 			initTitle("Expandable Group Component");
 			initDescription("Just strech it and play with it.\n\nSimple as that.");
 			addChild(expandable);
@@ -50,10 +63,10 @@ package com.gazman.components.expandlable_group.view
 			layoutExpandable();
 		}
 		
-		override protected function initLayout():void
+		override public function initLayout():void
 		{
 			super.initLayout();
-			
+			background.height = 640;
 			reset();
 			
 			var containerLayout:ContainerLayout = new ContainerLayout();
@@ -74,5 +87,9 @@ package com.gazman.components.expandlable_group.view
 			box.height = 200;
 		}
 		
+		public function expandableSelectedHandler():void
+		{
+			open();	
+		}
 	}
 }

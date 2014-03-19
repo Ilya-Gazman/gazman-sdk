@@ -10,24 +10,15 @@
 
 package com.gazman.components.menu
 {
+	import com.gazman.components.menu.view.MenuScreenView;
 	import com.gazman.life_cycle.Registrator;
-	import com.gazman.ui.screens.signals.StarlingReadySignal;
+	import com.gazman.ui.screens.signals.root_created.RootCraetedSignal;
 	
 	public class MenuRegistrator extends Registrator
 	{
-		override protected function initClassesHandler():void
-		{
-			super.initClassesHandler();
-		}
-		
-		override protected function initRegistratorsHandler():void
-		{
-			super.initRegistratorsHandler();
-		}
-		
 		override protected function initSignalsHandler():void
 		{
-			registerSignal(StarlingReadySignal, MenuConnector);
+			registerSignal(RootCraetedSignal, MenuScreenView);
 		}
 		
 	}

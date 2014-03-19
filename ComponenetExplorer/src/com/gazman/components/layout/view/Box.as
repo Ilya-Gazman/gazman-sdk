@@ -26,9 +26,7 @@ package com.gazman.components.layout.view
 
 		private var size:Number;
 		
-		public function Box(latter:String, color:uint, size:Number)
-		{
-			super();
+		public function setData(latter:String, color:uint, size:Number):void{
 			this.size = size;
 			this.color = color;
 			this.latter = latter;

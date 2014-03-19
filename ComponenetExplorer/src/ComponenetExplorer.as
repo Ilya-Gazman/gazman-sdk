@@ -12,15 +12,19 @@ package
 {
 	import com.adobe.viewsource.ViewSource;
 	import com.gazman.components.ComponenetsContext;
-	import com.gazman.ui.screens.root.RootView;
+	import com.gazman.components.RootView;
+	import com.gazman.ui.screens.FlashBaseView;
 	
 	[SWF(width="960",height="640",frameRate="60",backgroundColor="#ffffff")]
-	public class ComponenetExplorer extends RootView
+	public class ComponenetExplorer extends FlashBaseView
 	{
 		public function ComponenetExplorer()
 		{
+			// Attach source view
 			ViewSource.addMenuItem(this, "srcview/index.html");
-			new ComponenetsContext().initialize();
+			
+			// Initilize
+			initialize(new ComponenetsContext(), RootView);
 		}
 	}
 }

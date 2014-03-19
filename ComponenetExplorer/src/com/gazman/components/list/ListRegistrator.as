@@ -10,22 +10,15 @@
 
 package com.gazman.components.list
 {
+	import com.gazman.components.list.view.ListScreenView;
 	import com.gazman.components.menu.view.signals.list.ListSelectedSignal;
 	import com.gazman.life_cycle.Registrator;
 	
 	public class ListRegistrator extends Registrator
 	{
-		override protected function initClassesHandler():void
-		{
-		}
-		
-		override protected function initRegistratorsHandler():void
-		{
-		}
-		
 		override protected function initSignalsHandler():void
 		{
-			registerSignal(ListSelectedSignal, ListConnector);
+			registerSignal(ListSelectedSignal, ListScreenView);
 		}
 		
 	}

@@ -10,28 +10,34 @@
 
 package com.gazman.life_cycle
 {
-	import com.gazman.life_cycle.utils.getInterfaces;
-	import com.gazman.life_cycle.utils.getMethodNames;
+	import com.gazman.life_cycle.utils.reflection.Method;
+	import com.gazman.life_cycle.utils.reflection.Reflection;
+	
+	import flash.utils.getDefinitionByName;
+	
+	import avmplus.getQualifiedClassName;
+	
 
 	/**
 	 * Signals are used to communitacte between classes. Siganl must implement exctly one interface and call Signal.dispatch(arguments) on it's excecution.
 	 */
-	public class Signal extends SingleTon
+	public class Signal implements ISingleTon
 	{
 		private var listeners:Array = new Array();
 		private var methodeName:String;
 		
 		public function Signal(){
-			var interfaces:Vector.<Class> = getInterfaces(this);
-			if(interfaces.length != 1){
-				throw new Error("Signal must have exactly one interface");
+			var interfaces:Vector.<Class> = new Reflection(getDefinitionByName(getQualifiedClassName(this)) as Class).getInterfaces();
+			if(interfaces.length != 2){
+				throw new Error("Signal must have exactly two interface");
 			}
-			var signalInterface:Class = interfaces[0];
-			var methods:Vector.<String> = getMethodNames(signalInterface);
+			var signalInterface:Class = interfaces[1];
+			
+			var methods:Vector.<Method> = new Reflection(getDefinitionByName(getQualifiedClassName(signalInterface)) as Class).getPublicMethodes();
 			if(methods.length != 1){
 				throw new Error("Signal interface must have exactly one methode");
 			}
-			methodeName = methods[0];
+			methodeName = methods[0].name;
 		}
 		
 		/**
@@ -67,5 +73,11 @@ package com.gazman.life_cycle
 				(listener[methodeName] as Function).apply(listener, _arguments);
 			}
 		}
+		
+		[Private]
+		public function injectionHandler():void
+		{
+		}
+		
 	}
 }

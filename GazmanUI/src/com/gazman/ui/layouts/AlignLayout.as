@@ -27,7 +27,7 @@ package com.gazman.ui.layouts
 		 * @param target the target to layout
 		 * @param relativeTo default target.parent
 		 */		
-		override public function applyLayoutOn(target:DisplayObject, relativeTo:DisplayObject = null):void{
+		override protected function applyLayoutHandler(target:DisplayObject, relativeTo:DisplayObject = null):void{
 			if(!relativeTo){
 				relativeTo = target.parent;
 			}

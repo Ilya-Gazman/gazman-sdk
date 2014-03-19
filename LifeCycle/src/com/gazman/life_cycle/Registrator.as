@@ -32,11 +32,13 @@ package com.gazman.life_cycle
 		 * Signals are SingelTone, it allows you to make maping even befor the class or the signal is created.  
 		 * @param signalClass The signal class to map
 		 * @param handlerClass The class that will listen to the signal
+		 * @param family used as key for muliton pattern
+		 * @see http://en.wikipedia.org/wiki/Multiton_pattern
 		 * 
 		 */		
-		protected function registerSignal(signalClass:Class, handlerClass:Class):void{
-			var hadnler:Object = Factory.instance.inject(handlerClass);
-			var signal:Signal = Factory.instance.inject(signalClass);
+		protected final function registerSignal(signalClass:Class, handlerClass:Class, family:String = null):void{
+			var hadnler:Object = Factory.instance.inject(handlerClass, family);
+			var signal:Signal = Factory.instance.inject(signalClass, family);
 			signal.addListener(hadnler);
 		}
 		
@@ -49,7 +51,7 @@ package com.gazman.life_cycle
 		 * @param claz The top leafe of the class family to register
 		 * 
 		 */		
-		protected function registerClass(claz:Class):void{
+		protected final function registerClass(claz:Class):void{
 			Factory.instance.registerClass(claz);
 		}
 		
@@ -58,7 +60,7 @@ package com.gazman.life_cycle
 		 * @param registrator
 		 * 
 		 */		
-		protected function addRegistrator(registrator:Registrator):void{
+		protected final function addRegistrator(registrator:Registrator):void{
 			PrimeRegistrator.instace.addRegistrator(registrator);
 		}
 	}

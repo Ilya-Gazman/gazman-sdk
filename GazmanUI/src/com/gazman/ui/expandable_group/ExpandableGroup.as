@@ -12,6 +12,7 @@ package com.gazman.ui.expandable_group
 {
 	import com.gazman.ui.expandable_group.signals.SizeChangedSignal;
 	import com.gazman.ui.group.Group;
+	import com.gazman.ui.group.strict.StrictGroup;
 	
 	import flash.display.Stage3D;
 	
@@ -24,7 +25,7 @@ package com.gazman.ui.expandable_group
 	{
 		private var allowAddChild:Boolean;
 
-		private var target:DisplayObject;
+		public var target:DisplayObject;
 		private var topLeftBox:Box;
 		private var topRightBox:Box;
 		private var bottomLeftBox:Box;
@@ -41,9 +42,8 @@ package com.gazman.ui.expandable_group
 		 * ExpandableGroup can have only one child and it is the target
 		 * 
 		 */		
-		public function ExpandableGroup(target:DisplayObject)
+		public function ExpandableGroup()
 		{
-			this.target = target;
 			topLeftBox = new Box(this);
 			topRightBox = new Box(this);
 			bottomLeftBox = new Box(this);
@@ -58,6 +58,9 @@ package com.gazman.ui.expandable_group
 		
 		override protected function addChildrenHandler():void
 		{
+			if(target == null){
+				throw new Error("Target haven't been set");
+			}
 			addChildPrivatly(target, 1);
 			addChildPrivatly(leftStick);
 			addChildPrivatly(righStick);

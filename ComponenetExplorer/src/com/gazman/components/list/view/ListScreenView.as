@@ -8,11 +8,13 @@
 //  https://github.com/Ilya-Gazman/gazman-sdk/blob/master/LICENSE.md
 // =================================================================================================
 
-package com.gazman.components.list.view
+package com.gazman.components.list.view 
 {
-	import com.gazman.components.default_screen.DefaultMenuScreen;
-	import com.gazman.components.default_screen.SettingItem;
 	import com.gazman.components.list.view.balls.BallRenderer;
+	import com.gazman.components.menu.view.signals.list.IListSelectedSignal;
+	import com.gazman.components.screens.menu_screen.DefaultMenuScreen;
+	import com.gazman.components.screens.menu_screen.SettingItem;
+	import com.gazman.life_cycle.inject;
 	import com.gazman.ui.drag.SmoothDragHandler;
 	import com.gazman.ui.group.Group;
 	import com.gazman.ui.layouts.AlignLayout;
@@ -29,31 +31,47 @@ package com.gazman.components.list.view
 	import starling.textures.Texture;
 	import starling.utils.Color;
 	
-	public class ListScreenView extends DefaultMenuScreen
+	public class ListScreenView extends DefaultMenuScreen implements IListSelectedSignal
 	{
-		private var balls:List = new List();
-		private var smoothDragHandler:SmoothDragHandler = new SmoothDragHandler(balls);
-		private var panel:Panel = new Panel();
-		private var optionsContainer:Group = new Group();
-		private var linearListButton:Button;
+		private var balls:List;
+		private var smoothDragHandler:SmoothDragHandler;
+		private var panel:Panel;
+		private var optionsContainer:Group;
+		private var horizontalListButton:Button;
 		private var verticalListButton:Button;
 		private var gridListButton:Button;
 		private var applyButton:Button;
 		
-		private var settingsContainer:Group = new Group();
-		private var structureRowsSettings:SettingItem = new SettingItem();
-		private var structureColumnsSettings:SettingItem = new SettingItem();
-		private var layoutColumnsSettings:SettingItem = new SettingItem();
-		private var layoutRowsSettings:SettingItem = new SettingItem();
-		private var layoutWidthSettings:SettingItem = new SettingItem();
-		private var layoutHigthSettings:SettingItem = new SettingItem();
-		private var listData:ListData = new ListData();
+		private var settingsContainer:Group;
+		private var structureRowsSettings:SettingItem;
+		private var structureColumnsSettings:SettingItem;
+		private var layoutColumnsSettings:SettingItem;
+		private var layoutRowsSettings:SettingItem;
+		private var layoutWidthSettings:SettingItem;
+		private var layoutHigthSettings:SettingItem;
+		private var listData:ListData;
 		private const LIST_VERTICAL_SIZE:Number = 5;
 		private const LIST_HORIZONTAL_SIZE:Number = 7;
 		
-		override protected function addChildrenHandler():void
+		override public function addChildrenHandler():void
 		{
 			super.addChildrenHandler();
+			
+			balls = inject(List);
+			panel = inject(Panel);
+			optionsContainer = inject(Group);
+			settingsContainer = inject(Group);
+			structureRowsSettings = inject(SettingItem);
+			structureColumnsSettings = inject(SettingItem);
+			layoutColumnsSettings = inject(SettingItem);
+			layoutRowsSettings = inject(SettingItem);
+			layoutWidthSettings = inject(SettingItem);
+			layoutHigthSettings = inject(SettingItem);
+			listData = inject(ListData);
+			
+			
+			smoothDragHandler = new SmoothDragHandler(balls);
+			
 			// By keeping all the initilize processes in one line, it will be easy later to change the layers order.
 			initTitle("List componenet");
 			initDescription(DescriptionText.LIST);
@@ -121,12 +139,12 @@ package com.gazman.components.list.view
 		
 		private function initButtons():void
 		{
-			linearListButton = createButton("Horizontal Layout", horizontalListSelectedHandler);
+			horizontalListButton = createButton("Horizontal Layout", horizontalListSelectedHandler);
 			verticalListButton = createButton("Vertical Layout", verticalListSelectedHandler);
 			gridListButton = createButton("Grid Layout", gridListSelectedHandler);
 			
 			addChild(optionsContainer);
-			optionsContainer.addChild(linearListButton);
+			optionsContainer.addChild(horizontalListButton);
 			optionsContainer.addChild(verticalListButton);
 			optionsContainer.addChild(gridListButton);
 		}
@@ -188,7 +206,7 @@ package com.gazman.components.list.view
 			balls.layout.columnsCount = 1;
 			balls.structure.columnsCount = 1;
 			
-			balls.layout.typicalItem = new BallRenderer();
+			balls.layout.typicalItem = inject(BallRenderer);
 			balls.structure.itemRenderer = BallRenderer;
 			
 			var data:Array = new Array();
@@ -204,17 +222,17 @@ package com.gazman.components.list.view
 			verticalListSelectedHandler();
 		}
 		
-		override protected function initLayout():void
+		override public function initLayout():void
 		{
 			super.initLayout();
 
 			// Layout buttons
-			var linearLayout:LinearLayout = new LinearLayout(false);
-			linearLayout.applyLayout(linearListButton, verticalListButton, gridListButton);
-			var containerLayout:ContainerLayout = new ContainerLayout();
+			var linearLayout:LinearLayout = inject(LinearLayout);
+			linearLayout.applyLayout(verticalListButton, horizontalListButton, gridListButton);
+			var containerLayout:ContainerLayout = inject(ContainerLayout);
 			containerLayout.left = 10;
 			containerLayout.applyLayoutOn(optionsContainer);
-			var alignLayout:AlignLayout = new AlignLayout();
+			var alignLayout:AlignLayout = inject(AlignLayout);
 			alignLayout.below = 10;
 			alignLayout.applyLayoutOn(optionsContainer, description);
 			
@@ -232,7 +250,7 @@ package com.gazman.components.list.view
 			linearLayout.addChildren(layoutHigthSettings);
 			linearLayout.applyLayout();
 			
-			// Layout apply button
+			// Layout applyButton
 			containerLayout.applyLayoutOn(applyButton);
 			alignLayout.applyLayoutOn(applyButton, settingsContainer);
 			
@@ -260,10 +278,9 @@ package com.gazman.components.list.view
 			panel.resizeByContainer(10);
 		}
 		
-		override protected function verifyDependencies():Boolean
+		public function listSelectedSignal():void
 		{
-			return super.verifyDependencies();
+			open();
 		}
-		
 	}
 }

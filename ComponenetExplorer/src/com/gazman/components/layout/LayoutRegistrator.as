@@ -10,22 +10,15 @@
 
 package com.gazman.components.layout
 {
+	import com.gazman.components.layout.view.LayoutScreenView;
 	import com.gazman.components.menu.view.signals.layout.LayoutSelectedSignal;
 	import com.gazman.life_cycle.Registrator;
 	
 	public class LayoutRegistrator extends Registrator
 	{
-		override protected function initClassesHandler():void
-		{
-		}
-		
-		override protected function initRegistratorsHandler():void
-		{
-		}
-		
 		override protected function initSignalsHandler():void
 		{
-			registerSignal(LayoutSelectedSignal, LayoutConnector);
+			registerSignal(LayoutSelectedSignal, LayoutScreenView);
 		}
 	}
 }

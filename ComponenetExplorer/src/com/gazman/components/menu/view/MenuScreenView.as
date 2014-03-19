@@ -13,36 +13,41 @@ package com.gazman.components.menu.view
 	import com.gazman.components.menu.view.signals.expandable_group.ExpandableSelectedSignal;
 	import com.gazman.components.menu.view.signals.layout.LayoutSelectedSignal;
 	import com.gazman.components.menu.view.signals.list.ListSelectedSignal;
+	import com.gazman.components.screens.Screen;
 	import com.gazman.life_cycle.inject;
 	import com.gazman.ui.layouts.AlignLayout;
 	import com.gazman.ui.layouts.ContainerLayout;
-	import com.gazman.ui.list.simple_list.SimpleData;
-	import com.gazman.ui.list.simple_list.SimpleList;
-	import com.gazman.ui.screens.StrictScreenView;
+	import com.gazman.ui.list.buttons_list.ButtonsList;
+	import com.gazman.ui.list.buttons_list.ButtonData;
+	import com.gazman.ui.screens.signals.root_created.IRootCratedSignal;
 	
 	import starling.display.Quad;
 	import starling.text.TextField;
 	import starling.utils.Color;
 	
-	public class MenuScreenView extends StrictScreenView
+	public class MenuScreenView extends Screen implements IRootCratedSignal
 	{
 		private var background:Quad;
-		private var menu:SimpleList = new SimpleList();
+		private var menu:ButtonsList = new ButtonsList();
 		private var title:TextField;
 		private var groupSelectedSignal:ExpandableSelectedSignal;
 		private var listSelectSignal:ListSelectedSignal;
 		private var layoutSelectedSignal:LayoutSelectedSignal;
 		private var expandableSelectedSignal:ExpandableSelectedSignal;
 		
-		override protected function injectionHandler():void
+		// When working with screens you can choose to use injectionHandler for injects or addChildrenHandler.
+		// The difference is that injectionHandler will excecute when initilizing the application. And addChildrenHandler when first added to stage.
+		// I prefer using addChildrenHandler, but I wanted to show you this option too.
+		override public function injectionHandler():void
 		{
+			super.injectionHandler();
 			groupSelectedSignal = inject(ExpandableSelectedSignal);
 			listSelectSignal = inject(ListSelectedSignal);
 			layoutSelectedSignal = inject(LayoutSelectedSignal);
 			expandableSelectedSignal = inject(ExpandableSelectedSignal);
 		}
 		
-		override protected function addChildrenHandler():void
+		override public function addChildrenHandler():void
 		{
 			background = new Quad(960, 640, Color.WHITE);
 			addChild(background);
@@ -53,15 +58,15 @@ package com.gazman.components.menu.view
 			addChild(menu);
 		}
 		
-		override protected function initLayout():void
+		override public function initLayout():void
 		{
-			var layout:ContainerLayout = new ContainerLayout();
+			var layout:ContainerLayout = inject(ContainerLayout);
 			layout.horizontalCenter = 0;
 			layout.top = 10;
 			layout.applyLayoutOn(title);
 			layout.applyLayoutOn(menu);
 			
-			var alignLayout:AlignLayout = new AlignLayout();
+			var alignLayout:AlignLayout = inject(AlignLayout);
 			alignLayout.below = 10;
 			alignLayout.applyLayoutOn(menu, title);
 			
@@ -72,16 +77,16 @@ package com.gazman.components.menu.view
 		private function initMenu():void
 		{
 			var data:Array = new Array();
-			data.push(new SimpleData("List", listSelectSignal.listSelectedSignal));
-			data.push(new SimpleData("Layout", layoutSelectedSignal.layoutSelectedSignal));
-			data.push(new SimpleData("Expandable Group", expandableSelectedSignal.expandableSelectedHandler));
+			data.push(new ButtonData("List", listSelectSignal.listSelectedSignal));
+			data.push(new ButtonData("Layout", layoutSelectedSignal.layoutSelectedSignal));
+			data.push(new ButtonData("Expandable Group", expandableSelectedSignal.expandableSelectedHandler));
 			menu.structure.dataProvider = data;
 			menu.invalidate();
-		}
+		}		
 		
-		override protected function verifyDependencies():Boolean
+		public function rootCratedHandler():void
 		{
-			return false;
+			open();
 		}
 		
 	}

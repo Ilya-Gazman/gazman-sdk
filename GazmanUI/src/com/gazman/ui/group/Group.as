@@ -33,6 +33,14 @@ package com.gazman.ui.group
 			setInitListener(this, startInitilize);
 		}
 		
+		/**
+		 * Make the initialize processes to run again.
+		 */
+		public function reset():void{
+			initLayoutComplete = false;
+			setInitListener(this, startInitilize);
+		}
+		
 		private function startInitilize():void
 		{
 			initilize();

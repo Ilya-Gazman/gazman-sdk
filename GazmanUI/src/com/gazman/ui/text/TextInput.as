@@ -10,7 +10,7 @@
 
 package com.gazman.ui.text
 {
-	import com.gazman.ui.expandable_group.StrictGroup;
+	import com.gazman.ui.group.strict.StrictGroup;
 	import com.gazman.ui.layouts.ContainerLayout;
 	import com.gazman.ui.text.text_change.TextChangedSignal;
 	
