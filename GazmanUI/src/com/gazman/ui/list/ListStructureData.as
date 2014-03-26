@@ -10,6 +10,8 @@
 
 package com.gazman.ui.list
 {
+	import com.gazman.life_cycle.inject;
+
 	/**
 	 * List model
 	 */
@@ -87,7 +89,7 @@ package com.gazman.ui.list
 			if(itemRenderer == null){
 				throw new Error("structure.itemRenderer is not set");
 			}
-			return new itemRenderer();
+			return inject(itemRenderer);
 		}
 	}
 }

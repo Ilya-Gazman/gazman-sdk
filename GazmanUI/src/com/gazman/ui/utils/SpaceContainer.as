@@ -48,7 +48,9 @@ package com.gazman.ui.utils
 		
 		override public function getBounds(targetSpace:DisplayObject, resultRect:Rectangle=null):Rectangle
 		{
-			if (resultRect == null) resultRect = new Rectangle();
+			if (resultRect == null) {
+				resultRect = new Rectangle();
+			}
 			
 			if (targetSpace == this) // optimization
 			{

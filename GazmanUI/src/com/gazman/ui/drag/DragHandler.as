@@ -32,6 +32,7 @@ package com.gazman.ui.drag
 		private var isDraging:Boolean;
 
 		protected var target:DisplayObject;
+		private var haveMoved:Boolean;
 
 		/**
 		 * 
@@ -58,8 +59,9 @@ package com.gazman.ui.drag
 			}
 			switch(touch.phase){
 				case TouchPhase.ENDED:
-					if(isDraging){
+					if(isDraging && haveMoved){
 						isDraging = false;
+						haveMoved = false;
 						dragFinishSignal.dragFinishHandler();
 					}
 					break;
@@ -74,12 +76,16 @@ package com.gazman.ui.drag
 			}
 			switch(touch.phase){
 				case TouchPhase.BEGAN:
+					if(isDraging && !haveMoved){
+						return;
+					}
 					isDraging = true;
 					dragBeginSignal.dragBeginHandler();
 					break;
 				case TouchPhase.MOVED:
 					if (touch && isDraging)
 					{
+						haveMoved = true;
 						var localPos:Point = touch.getLocation(target);
 						var deltaX:Number = touch.globalX - touch.previousGlobalX;
 						var deltaY:Number = touch.globalY - touch.previousGlobalY;

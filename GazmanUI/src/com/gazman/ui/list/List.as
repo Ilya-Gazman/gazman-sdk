@@ -36,6 +36,35 @@ package com.gazman.ui.list
 		private var cellGlobal:Point = new Point();
 		private var bottomLeftIndex:int = 0;
 		
+		override protected function initilize():void
+		{
+			initLayoutDefaults();
+			
+			addChild(viewPort);
+			viewPort.layout = layout;
+			viewPort.structure = structure;
+			invalidate();
+		}
+		
+		private function initLayoutDefaults():void
+		{
+			layout.updateDefaults = true;
+			if(layout.columnsCount == ListLayoutData.NONE){
+				if(layout.rowsCount == ListLayoutData.NONE){
+					layout.defaultColumnsCount = 1;
+					layout.updateDefaults = false;
+					setDifaultVerticalLayout();
+				}
+				else{
+					setDifaultHorizontalLayout();	
+				}
+			}
+			else if(layout.rowsCount == ListLayoutData.NONE){
+				layout.updateDefaults = false;
+				setDifaultVerticalLayout();
+			}
+			layout.updateDefaults = false;
+		}
 		
 		/**
 		 * Recreate all views and perform full data update
@@ -84,43 +113,15 @@ package com.gazman.ui.list
 			structure.dataProvider[index] = data;
 			index -= bottomLeftIndex;
 			
-			var item:ItemRenderer = viewPort.cells[index % layout.rowsCount][int(index / structure.rowsCount)];
-			item.updateData(data);
+			var item:ItemRenderer = viewPort.cells[int(index / structure.columnsCount)][index % structure.columnsCount];
+			if(item){
+				item.updateData(data);
+			}
 		}
 		
 		internal function gridChangedHandler():void
 		{
 			invalidate();
-		}
-		
-		override protected function initilize():void
-		{
-			initLayoutDefaults();
-			
-			addChild(viewPort);
-			viewPort.layout = layout;
-			viewPort.structure = structure;
-			invalidate();
-		}
-		
-		private function initLayoutDefaults():void
-		{
-			layout.updateDefaults = true;
-			if(layout.columnsCount == ListLayoutData.NONE){
-				if(layout.rowsCount == ListLayoutData.NONE){
-					layout.defaultColumnsCount = 1;
-					layout.updateDefaults = false;
-					setDifaultVerticalLayout();
-				}
-				else{
-					setDifaultHorizontalLayout();	
-				}
-			}
-			else if(layout.rowsCount == ListLayoutData.NONE){
-				layout.updateDefaults = false;
-				setDifaultVerticalLayout();
-			}
-			layout.updateDefaults = false;
 		}
 		
 		private function setDifaultHorizontalLayout():void
@@ -167,7 +168,17 @@ package com.gazman.ui.list
 				resultRect = new Rectangle();
 			}
 			invalidateClipRectangle();
-			resultRect.copyFrom(clipRectBuffer);
+			
+			
+			var minX:Number = x, maxX:Number = x + clipRectBuffer.width;
+			var minY:Number = y, maxY:Number = y + clipRectBuffer.height;
+			
+			minX = minX < resultRect.x ? minX : resultRect.x;
+			maxX = maxX > resultRect.right ? maxX : resultRect.right;
+			minY = minY < resultRect.y ? minY : resultRect.y;
+			maxY = maxY > resultRect.bottom ? maxY : resultRect.bottom;
+			
+			resultRect.setTo(minX, minY, maxX - minX, maxY - minY);
 			
 			return resultRect;
 		}
@@ -293,7 +304,7 @@ package com.gazman.ui.list
 			viewPort.iterateOverColumn(i);
 			var cell:ItemRenderer = viewPort.next() as ItemRenderer;
 			while(cell != null){
-				var dataIndex:int = i + structure.rowsCount * viewPort.nextIndex + bottomLeftIndex;
+				var dataIndex:int = i + structure.columnsCount * viewPort.nextIndex + bottomLeftIndex;
 				if(dataIndex >= structure.dataProvider.length){
 					break;
 				}

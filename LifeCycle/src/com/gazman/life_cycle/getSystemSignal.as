@@ -7,10 +7,10 @@
 //	in accordance with the terms of the accompanying license agreement.
 //  https://github.com/Ilya-Gazman/gazman-sdk/blob/master/LICENSE.md
 // =================================================================================================
-package com.gazman.life_cycle.version
+
+package com.gazman.life_cycle
 {
-	public class Version
-	{
-		public static const LIFE_CYCLE_VERSION:String = "1.0";
+	public function getSystemSignal(signalClass:Class):Signal{
+		return inject(signalClass);
 	}
 }

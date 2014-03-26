@@ -39,9 +39,8 @@ package com.gazman.ui.list.buttons_list
 			
 		}
 		
-		override public function updateData(data:Object):void
+		override protected function dataChangeHandler(data:Object):void
 		{
-			super.updateData(data);
 			if(data){
 				button.text = data.toString();
 			}

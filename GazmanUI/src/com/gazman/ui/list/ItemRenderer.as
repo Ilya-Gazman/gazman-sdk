@@ -23,16 +23,42 @@ package com.gazman.ui.list
 		
 		
 		public function ItemRenderer(){
-			visible = false;
+			resetHandler();
 		}
 		
 		/**
-		 * This method is fired when list data is invalidated or updated 
+		 * Do not call manually. System call this method when data changed or invalidated 
 		 */
-		public function updateData(data:Object):void{
-			this.data = data;
-			visible = data != null;
-			touchable = data != null;
+		public final function updateData(data:Object):void{
+			if(data != null){
+				if(data != this.data){
+					this.data = data;
+					visible = true;
+					touchable = true;
+					dataChangeHandler(data);
+				}
+			}
+			else{
+				resetHandler();
+				this.data = null;
+			}
+		}
+		
+		/**
+		 * Called from constractor and when data changed to null. <br>The data will be changed to null only after this method finish excecuting.
+		 */
+		protected function resetHandler():void
+		{
+			visible = false;
+			touchable = false;
+		}
+		
+		/**
+		 * Called when data changed to non null value
+		 */
+		protected function dataChangeHandler(data:Object):void
+		{
+			
 		}
 		
 		/**

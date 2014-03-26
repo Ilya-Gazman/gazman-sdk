@@ -10,6 +10,7 @@
 
 package com.gazman.life_cycle
 {
+	import com.gazman.life_cycle.utils.constractor.$new;
 	import com.gazman.life_cycle.utils.reflection.Reflection;
 	
 	import flash.utils.Dictionary;
@@ -51,7 +52,7 @@ package com.gazman.life_cycle
 		 * @return instance of @classToReturn 
 		 * @see http://en.wikipedia.org/wiki/Multiton_pattern
 		 */
-		public function inject(classToReturn:Class, family:String = null):*{
+		public function inject(classToReturn:Class, family:String = null, params:Array = null):*{
 			var classToUse:Class = classMap[classToReturn];
 			if (classToUse == null) {
 				classToUse = classToReturn;
@@ -59,10 +60,10 @@ package com.gazman.life_cycle
 			
 			var returnValue:*;
 			if (isSingleTon(classToReturn)) {
-				returnValue = getSingleTon(classToUse, family);
+				returnValue = getSingleTon(classToUse, family, params);
 			}
 			else {
-				returnValue = new classToUse();
+				returnValue = $new(classToUse, params);
 				if (returnValue is IInjector) {
 					returnValue.startInjection();
 				}
@@ -71,7 +72,7 @@ package com.gazman.life_cycle
 			return returnValue;
 		}
 		
-		private function getSingleTon(classToreturn:Class, key:String):*{
+		private function getSingleTon(classToreturn:Class, key:String, params:Array):*{
 			var singleTon:ISingleTon;
 			if(key){
 				var map:Object = singleTonHash[classToreturn];
@@ -81,7 +82,7 @@ package com.gazman.life_cycle
 				}
 				singleTon = map[key];
 				if(!singleTon){
-					singleTon = new classToreturn();
+					singleTon = $new(classToreturn, params);
 					map[key] = singleTon;
 					if (singleTon is IInjector) {
 						(singleTon as IInjector).injectionHandler();
@@ -91,7 +92,7 @@ package com.gazman.life_cycle
 			else{
 				singleTon = singleTonHash[classToreturn];
 				if (!singleTon) {
-					singleTon = new classToreturn();
+					singleTon = $new(classToreturn, params);
 					singleTonHash[classToreturn] = singleTon;
 					if (singleTon is IInjector) {
 						(singleTon as IInjector).injectionHandler();

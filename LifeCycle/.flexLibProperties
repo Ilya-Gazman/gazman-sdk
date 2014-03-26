@@ -9,6 +9,9 @@
     <classEntry path="com.gazman.life_cycle.utils.reflection.Method"/>
     <classEntry path="com.gazman.life_cycle.IInjector"/>
     <classEntry path="com.gazman.life_cycle.version.Version"/>
+    <classEntry path="com.gazman.life_cycle.getSystemSignal"/>
+    <classEntry path="com.gazman.life_cycle.utils.constractor.$new"/>
+    <classEntry path="com.gazman.life_cycle.injectWithParams"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

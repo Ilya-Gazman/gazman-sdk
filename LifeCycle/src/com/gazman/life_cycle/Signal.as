@@ -72,12 +72,6 @@ package com.gazman.life_cycle
 			for each(var listener:Object in listeners){
 				(listener[methodeName] as Function).apply(listener, _arguments);
 			}
-		}
-		
-		[Private]
-		public function injectionHandler():void
-		{
-		}
-		
+		}		
 	}
 }
