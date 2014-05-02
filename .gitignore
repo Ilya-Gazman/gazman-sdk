@@ -1,11 +1,12 @@
-# Build and Release Folders
+# Ignored folders
 bin-debug
 bin-release
 bin
+.metadata
+LifeCycleTest
 
-# Dependencies
+# Ignored dependencies projects
 Starling/
 
-# batch files
+# Ignored files
 *.bat
-*.metadata
