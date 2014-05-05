@@ -11,6 +11,7 @@ package com.gazman.life_cycle;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.gazman.life_cycle.signal.IRegistrationCompleteSignal;
 import com.gazman.life_cycle.signal.RegistrationCompleteSignal;
 
 public abstract class Registrator {
@@ -20,26 +21,46 @@ public abstract class Registrator {
 
 	private static LinkedList<Registrator> registrators = new LinkedList<Registrator>();
 	private static boolean initilizationComplete = false;
+	private static Object synObject = new Object();
+
+	/**
+	 * Register for initializationCompleteSignal. If the initialization already complete the signal will be callback will be instantly executed.
+	 * <br>This process is thread safety.
+	 * @param callback InitializationCompleteSignal callback
+	 */
+	public static void registerForInitilizationComplete(
+			IRegistrationCompleteSignal callback) {
+		synchronized (synObject) {
+			if (initilizationComplete) {
+				callback.registrationCompleteHandler();
+			} else {
+				Factory.inject(RegistrationCompleteSignal.class).addListener(
+						callback);
+			}
+		}
+	}
 
 	/**
 	 * The entry point to the initialization process
 	 */
 	public void initilize() {
-		if (initilizationComplete) {
-			throw new IllegalStateException(
-					"Initilization process has already been excecuted.");
+		synchronized (synObject) {
+			if (initilizationComplete) {
+				throw new IllegalStateException(
+						"Initilization process has already been excecuted.");
+			}
+			initilizationComplete = true;
+			initRegistrators();
+			for (Registrator registrator : registrators) {
+				registrator.initClasses();
+			}
+			initClasses();
+			for (Registrator registrator : registrators) {
+				registrator.initSignals();
+			}
+			initSignals();
+			registrators = null;
 		}
-		initilizationComplete = true;
-		initRegistrators();
-		for (Registrator registrator : registrators) {
-			registrator.initClasses();
-		}
-		initClasses();
-		for (Registrator registrator : registrators) {
-			registrator.initSignals();
-		}
-		initSignals();
-		registrators = null;
 		Factory.inject(RegistrationCompleteSignal.class)
 				.registrationCompleteHandler();
 	}
@@ -112,26 +133,32 @@ public abstract class Registrator {
 	 * it will be the same handler instance that will handle all the dispatches
 	 * of that signal
 	 * 
-	 * @param signal The signal class
-	 * @param handler The handler class
+	 * @param signal
+	 *            The signal class
+	 * @param handler
+	 *            The handler class
 	 */
 	protected <T> void registerToSignal(Class<? extends Signal<T>> signal,
-			Class<T> handler) {
+			Class<? extends T> handler) {
 		registerToSignal(signal, handler, Registrator.DEFAULT_FAMILY);
 	}
-	
+
 	/**
 	 * Register handler class to signal, even if the handler is not a Singleton,
 	 * it will be the same handler instance that will handle all the dispatches
 	 * of that signal
 	 * 
-	 * @param signal The signal class
-	 * @param handler The handler class
+	 * @param signal
+	 *            The signal class
+	 * @param handler
+	 *            The handler class
 	 */
 	protected <T> void registerToSignal(Class<? extends Signal<T>> signal,
-			Class<T> handler, String family) {
-		if(family !=  Registrator.DEFAULT_FAMILY && !ISingleTon.class.isAssignableFrom(handler) ){
-			throw new IllegalStateException("handler must be single ton other wise don't use family.");
+			Class<? extends T> handler, String family) {
+		if (family != Registrator.DEFAULT_FAMILY
+				&& !ISingleTon.class.isAssignableFrom(handler)) {
+			throw new IllegalStateException(
+					"handler must be single ton other wise don't use family.");
 		}
 		Signal<T> signalInstance = Factory.inject(signal, family);
 		T handlerInstance = Factory.inject(handler, family);
@@ -155,7 +182,8 @@ public abstract class Registrator {
 
 	/**
 	 * A place to make all your {@link #addRegistrator(Registrator)} calls. <br>
-	 * *Note that order it very important - If you perform class overriding you would prefer to add this Registrator last.
+	 * *Note that order it very important - If you perform class overriding you
+	 * would prefer to add this Registrator last.
 	 */
 	protected abstract void initRegistrators();
 
