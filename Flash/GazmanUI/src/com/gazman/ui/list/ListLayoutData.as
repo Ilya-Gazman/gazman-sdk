@@ -111,7 +111,7 @@ package com.gazman.ui.list
 			if(typicalItem){
 				return typicalItem.height + verticalGap;
 			}
-			throw new Error("Cell height is not set");
+			return NONE;
 		}
 
 		public function set cellHeight(value:Number):void
@@ -130,7 +130,7 @@ package com.gazman.ui.list
 			if(typicalItem){
 				return typicalItem.width + horizontalGap;
 			}
-			throw new Error("Cell width is not set");
+			return NONE;
 		}
 
 		public function set cellWidth(value:Number):void

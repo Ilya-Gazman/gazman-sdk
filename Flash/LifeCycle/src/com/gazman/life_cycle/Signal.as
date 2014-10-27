@@ -12,6 +12,7 @@ package com.gazman.life_cycle
 {
 	import com.gazman.life_cycle.utils.reflection.Method;
 	import com.gazman.life_cycle.utils.reflection.Reflection;
+	import flash.utils.Dictionary;
 	
 	import flash.utils.getDefinitionByName;
 	
@@ -93,14 +94,21 @@ package com.gazman.life_cycle
 		 * @see http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/arguments.html
 		 * 
 		 */		
-		protected function dispatch(_arguments:Array):void{
-			for each(var listener:Object in listeners){
-				(listener[methodeName] as Function).apply(listener, _arguments);
+		protected function dispatch(_arguments:Array):void {
+			if (listeners.length > 0) {
+				var listenersClone:Array = listeners.concat();
+				for each(var listener:Object in listenersClone) {
+					(listener[methodeName] as Function).apply(listener, _arguments);	
+				}	
 			}
-			for each(var listenerClass:Class in listenerClases){
-				var instance:* = inject(listenerClass);
-				(instance[methodeName] as Function).apply(listener, _arguments);
-			}
+			
+			if (listenerClases.length > 0) {
+				var listenerClasesClone:Array = listenerClases.concat();
+				for each(var listenerClass:Class in listenerClasesClone) {
+					var instance:* = inject(listenerClass);
+					(instance[methodeName] as Function).apply(listener, _arguments);	
+				}	
+			}			
 		}		
 	}
 }

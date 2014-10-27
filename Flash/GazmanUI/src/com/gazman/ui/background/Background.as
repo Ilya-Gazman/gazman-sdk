@@ -78,6 +78,10 @@ package com.gazman.ui.background
 			return frame.color;
 		}
 		
+		public function removeFrame():void {
+			removeChild(frame);
+		}
+		
 		/**
 		 * Update the frame and background size
 		 */

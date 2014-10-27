@@ -23,7 +23,15 @@ package com.gazman.life_cycle
 		public static const instance:Factory = new Factory();
 		
 		private var singleTonHash:Dictionary = new Dictionary();
+		private var singleTonExpector:Dictionary = new Dictionary();
+		private const TRUE:Object = new Object();
+		private const FALSE:Object = new Object();
 		private var classMap:Dictionary = new Dictionary(); 
+		
+		public function Factory() 
+		{
+			super();
+		}
 		
 		/**
 		 * 
@@ -64,6 +72,9 @@ package com.gazman.life_cycle
 			}
 			else {
 				returnValue = $new(classToUse, params);
+				if(returnValue is IInjectable){
+					IInjectable(returnValue).injectionHandler();
+				}
 			}
 			
 			return returnValue;
@@ -81,6 +92,9 @@ package com.gazman.life_cycle
 				if(!singleTon){
 					singleTon = $new(classToreturn, params);
 					map[key] = singleTon;
+					if(singleTon is IInjectable){
+						IInjectable(singleTon).injectionHandler();
+					}
 				}
 			}
 			else{
@@ -88,6 +102,9 @@ package com.gazman.life_cycle
 				if (!singleTon) {
 					singleTon = $new(classToreturn, params);
 					singleTonHash[classToreturn] = singleTon;
+					if(singleTon is IInjectable){
+						IInjectable(singleTon).injectionHandler();
+					}
 				}
 			}
 			return singleTon;
@@ -96,17 +113,25 @@ package com.gazman.life_cycle
 		/**
 		 * return if instance of class a can be cast to instant of class b
 		 */
-		internal static function isSingleTon(claz:Class):Boolean{
+		internal function isSingleTon(claz:Class):Boolean{
+			var object:Object = singleTonExpector[claz];
+			if(object != null){
+				return object == TRUE;
+			}
+			var returnValue:Boolean = false;
 			var reflection:Reflection = new Reflection(claz);
 			
 			var intarfaces:Vector.<Class> = reflection.getInterfaces();
 			for(var i:int = 0; i < intarfaces.length; i++){
 				if(intarfaces[i] == ISingleTon){
-					return true;
+					returnValue = true;
+					break;
 				}
 			}
 			
-			return false;
+			singleTonExpector[claz] = returnValue ? TRUE : FALSE;
+			
+			return returnValue;
 		}
 	}
 }

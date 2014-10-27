@@ -16,7 +16,7 @@ package com.gazman.ui.screens
 	
 	import starling.errors.AbstractClassError;
 	
-	public class BaseScreen extends Group
+	public class BaseScreen extends Group 
 	{
 		/**
 		 * When fifo mode is set, the screen will be aded to the head of the queue. 
@@ -24,8 +24,13 @@ package com.gazman.ui.screens
 		 */
 		protected var fifoMode:Boolean = true;
 		private var screenModel:ScreenModel = inject(ScreenModel, family);
+		private var _opened:Boolean = false;
 		
-		
+		protected function get isOpened():Boolean
+		{
+			return _opened;
+		}
+
 		public function resumeHandler():void{
 			
 		}
@@ -37,15 +42,21 @@ package com.gazman.ui.screens
 		/**
 		 * Remove the screen from screens stack
 		 */
-		protected final function close():void{
-			screenModel.removeScreen(this);
+		public final function close():void{
+			if(_opened){
+				screenModel.removeScreen(this);
+				_opened = false;
+			}
 		}
 		
 		/**
-		 * Add the screen to screens stack
+		 * Add the screen to screens stack if it's not already there
 		 */
 		protected final function open():void{
-			screenModel.puch(this, fifoMode);
+			if(!_opened){
+				_opened = true;
+				screenModel.puch(this, fifoMode);
+			}
 		}
 
 		protected function get family():String

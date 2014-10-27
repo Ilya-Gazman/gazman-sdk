@@ -12,6 +12,11 @@ package com.gazman.life_cycle
 {
 	public class AbstractRegistrator
 	{
+		public function AbstractRegistrator() 
+		{
+			super();
+		}
+		
 		/**
 		 * This is the place for addRegistrator calls
 		 */

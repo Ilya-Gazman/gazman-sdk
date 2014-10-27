@@ -23,7 +23,7 @@ package com.gazman.ui.group
 	{
 		private const initilizeCompleteSignal:InitilizeCompleteSignal = new InitilizeCompleteSignal();
 		
-		protected var initLayoutComplete:Boolean;
+		private var inititilizeComplete:Boolean;
 		private var _pandingInitilize:Group;
 		private var signalsListener:PrivateSignalListener;
 		
@@ -37,15 +37,15 @@ package com.gazman.ui.group
 		 * Make the initialize processes to run again.
 		 */
 		public function reset():void{
-			initLayoutComplete = false;
+			inititilizeComplete = false;
 			setInitListener(this, startInitilize);
 		}
 		
 		private function startInitilize():void
 		{
 			initilize();
-			initLayoutComplete = pandingInitilize == null;
-			if(initLayoutComplete){
+			inititilizeComplete = pandingInitilize == null;
+			if(inititilizeComplete){
 				initilizeCompleteSignal.initilizeCompleteHandler();
 			}
 		}
@@ -63,7 +63,7 @@ package com.gazman.ui.group
 		 * In seccessfull subscribtion, <b>this.initilize</b> will be called once target initilize is complete
 		 */
 		public final function subscribeForInitilize(target:Group):Boolean{
-			if(target.initLayoutComplete){
+			if(target.inititilizeComplete){
 				return false;
 			}
 			target.initilizeCompleteSignal.addListener(signalsListener);
@@ -100,6 +100,10 @@ package com.gazman.ui.group
 			}
 			groups.push(getQualifiedClassName(targetPandingInitilize));
 			throw new Error("Recursion subscription acure", groups);
+		}
+		
+		protected function get isInitilized():Boolean{
+			return inititilizeComplete;
 		}
 		
 		internal final function initilizeCompleteHandler():void

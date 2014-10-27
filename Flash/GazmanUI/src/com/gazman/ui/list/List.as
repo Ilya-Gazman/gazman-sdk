@@ -50,6 +50,25 @@ package com.gazman.ui.list
 			background.height = viewPort.height;
 		}
 		
+		private function validate():void
+		{
+			if(layout.columnsCount == ListLayoutData.NONE){
+				throw new Error("List.layout.columnsCount wasn't set. You must set both column layout columnsCount and rowsCount");
+			}
+			if(layout.rowsCount == ListLayoutData.NONE){
+				throw new Error("List.layout.rowsCount wasn't set. You must set both column layout columnsCount and rowsCount");
+			}
+			if(layout.cellWidth == ListLayoutData.NONE){
+				throw new Error("List.layout.cellWidth wasn't set. You must set cellWidth and cellHeight or tipicalItem");
+			}
+			if(layout.cellHeight == ListLayoutData.NONE){
+				throw new Error("List.layout.cellHeight wasn't set. You must set cellWidth and cellHeight or tipicalItem");
+			}
+			if(structure.columnsCount == ListLayoutData.NONE && structure.rowsCount == ListLayoutData.NONE){
+				throw new Error("List.structure.columnCount and rowsCound wasn't set you must set atlist one of them");
+			}
+		}
+		
 		private function initLayoutDefaults():void
 		{
 			layout.updateDefaults = true;
@@ -74,6 +93,7 @@ package com.gazman.ui.list
 		 * Recreate all views and perform full data update
 		 */
 		public function invalidate():void{
+			validate();
 			bottomLeftIndex = 0;
 			initLayoutDefaults();
 			structure.layoutRowsCount = layout.rowsCount;

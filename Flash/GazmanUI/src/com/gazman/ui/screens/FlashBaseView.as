@@ -40,6 +40,7 @@ package com.gazman.ui.screens
 		protected function initialize(lifeCycleContext:Context, RootView:Class):void{
 			lifeCycleContext.initialize();
 			initInjections();
+			Starling.handleLostContext = true;
 			var starlingInstance:Starling = new Starling(RootView, stage);
 			starlingInstance.addEventListener(Event.ROOT_CREATED, rootCreatedHandler);
 			starlingInstance.start();

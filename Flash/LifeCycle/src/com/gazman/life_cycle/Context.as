@@ -17,6 +17,11 @@ package com.gazman.life_cycle
 	 */
 	public class Context extends Registrator
 	{
+		public function Context() 
+		{
+			super();
+		}
+		
 		/**
 		 * Starts the main initialize process of the project.
 		 */

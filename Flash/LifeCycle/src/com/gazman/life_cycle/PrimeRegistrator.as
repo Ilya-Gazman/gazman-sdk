@@ -16,6 +16,11 @@ package com.gazman.life_cycle
 		public static const instace:PrimeRegistrator = new PrimeRegistrator();
 		private var list:Vector.<Registrator> = new Vector.<Registrator>();
 		
+		public function PrimeRegistrator() 
+		{
+			super();
+		}
+		
 		public function excecute():void{
 			var registrator:Registrator;
 			var i:int;

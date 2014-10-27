@@ -10,6 +10,9 @@
 
 package com.gazman.life_cycle
 {
+	import avmplus.getQualifiedClassName;
+	import avmplus.getQualifiedSuperclassName;
+
 	/**
 	 * Registrator is the entry point to your component world, it is maping all the components that you need in order for your own component to run. 
 	 * Usuly placed at the root of your package.
@@ -37,13 +40,23 @@ package com.gazman.life_cycle
 		 * 
 		 */		
 		protected final function registerSignal(signalClass:Class, handlerClass:Class, family:String = null):void{
-			var signal:Signal = Factory.instance.inject(signalClass, family);
-			if(Factory.isSingleTon(handlerClass)){
-				var hadnler:Object = Factory.instance.inject(handlerClass, family);
-				signal.addListener(hadnler);
+			var superclassName:String = getQualifiedSuperclassName(signalClass);
+			if(superclassName ==  "com.gazman.life_cycle::Signal"){
+				var signal:Signal = Factory.instance.inject(signalClass, family);
+				if(Factory.instance.isSingleTon(handlerClass)){
+					var hadnler:Object = Factory.instance.inject(handlerClass, family);
+					signal.addListener(hadnler);
+				}
+				else{
+					signal.addListener(handlerClass);
+				}	
+			}
+			// its interface
+			else if(superclassName == null){
+				throw new Error("Not implemented");
 			}
 			else{
-				signal.addListener(handlerClass);
+				throw new Error(getQualifiedClassName(signalClass) + " is not a Signal or interface");
 			}
 		}
 		

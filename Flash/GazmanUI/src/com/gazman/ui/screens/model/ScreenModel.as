@@ -1,8 +1,8 @@
 package com.gazman.ui.screens.model
 {
 	import com.gazman.life_cycle.ISingleTon;
-	import com.gazman.ui.screens.model.signals.ActiveScreenChangedSignal;
 	import com.gazman.ui.screens.BaseScreen;
+	import com.gazman.ui.screens.model.signals.ActiveScreenChangedSignal;
 	
 	public class ScreenModel implements ISingleTon
 	{
@@ -24,6 +24,30 @@ package com.gazman.ui.screens.model
 				screens.splice(0, 0, screen);
 			}
 			validateActiveScreen();
+		}
+		
+		public function get numberOfScreensInStack():int{
+			return screens.length;
+		}
+		
+		/**
+		 * Remove the top screen
+		 * @param fifoMode if set than will remove from tail, otherwise from head
+		 * @return the removed screen or null if there are no screens in the stack
+		 */
+		public function pop(fifoMode:Boolean = true):BaseScreen{
+			if(screens.length == 0){
+				return null;
+			}
+			saveActiveScreenState();
+			if (fifoMode) {
+				screens[screens.length - 1].close();
+			}
+			else{
+				screens[0].close();
+			}
+			
+			return activeScreen;
 		}
 		
 		public function removeScreen(screen:BaseScreen):void{

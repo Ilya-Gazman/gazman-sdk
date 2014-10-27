@@ -11,6 +11,7 @@
     <classEntry path="com.gazman.life_cycle.getSystemSignal"/>
     <classEntry path="com.gazman.life_cycle.utils.constractor.$new"/>
     <classEntry path="com.gazman.life_cycle.injectWithParams"/>
+    <classEntry path="com.gazman.life_cycle.IInjectable"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

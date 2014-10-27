@@ -86,6 +86,5 @@ package com.gazman.ui.layouts
 			horizontalCenter = CLEAR_VALUE;
 			verticalCenter = CLEAR_VALUE;
 		}
-		
 	}
 }

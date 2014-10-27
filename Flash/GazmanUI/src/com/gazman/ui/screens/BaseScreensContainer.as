@@ -28,6 +28,7 @@ package com.gazman.ui.screens
 		
 		override protected function initilize():void
 		{
+			visible = false;
 			screenModel.activeScreenChangedSignal.addListener(this);
 			background.width = stage.stageWidth;
 			background.height = stage.stageHeight;
@@ -44,13 +45,14 @@ package com.gazman.ui.screens
 			if(activeScreen != null){
 				addChild(activeScreen);
 			}
+			visible = numChildren > 1;
 		}
 		
 		override public function dispose():void
 		{
 			screenModel.activeScreenChangedSignal.removeListener(this);
 			super.dispose();
-			removeChildren();
+			removeChildren(1);
 		}
 		
 		override public function reset():void

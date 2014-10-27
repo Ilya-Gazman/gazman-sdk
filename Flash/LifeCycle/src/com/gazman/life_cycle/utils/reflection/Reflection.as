@@ -24,6 +24,10 @@ package com.gazman.life_cycle.utils.reflection
 			this.claz = claz;
 		}
 		
+		public function isInterface():Boolean{
+			return claz != Object && getQualifiedSuperclassName(claz) == null;
+		}
+		
 		/**
 		 * Faster than calling getSuperClasses() 
 		 */
