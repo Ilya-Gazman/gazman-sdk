@@ -36,10 +36,17 @@ public class Factory {
 	public static <T> T inject(Class<T> claz, String family) {
 		HashMap<String, Class<?>> hashMap = Registrator.classsesMap.get(claz);
 		Class<?> clasToUse = hashMap != null ? hashMap.get(family) : claz;
+		T instance;
 		if (ISingleTon.class.isAssignableFrom(clasToUse)) {
-			return ClassConstructor.construcSingleTon(family, clasToUse);
+			instance = ClassConstructor.construcSingleTon(family, clasToUse);
 		}
-		return ClassConstructor.construct(clasToUse);
+		else{
+			instance = ClassConstructor.construct(clasToUse);
+		}
+		if (instance instanceof Injector) {
+			((Injector) instance).injectionHandler(family);
+		}
+		return instance;
 	}
 
 	/**
@@ -82,10 +89,18 @@ public class Factory {
 		}
 		HashMap<String, Class<?>> hashMap = Registrator.classsesMap.get(claz);
 		Class<?> clasToUse = hashMap != null ? hashMap.get(family) : claz;
+		
+		T instance;
 		if (ISingleTon.class.isAssignableFrom(clasToUse)) {
-			return ClassConstructor.construcSingleTon(family, clasToUse, params);
+			instance = ClassConstructor.construcSingleTon(family, clasToUse, params);
 		}
-		return ClassConstructor.construct(clasToUse, params);
+		else{
+			instance = ClassConstructor.construct(clasToUse, params);
+		}
+		if (instance instanceof Injector) {
+			((Injector) instance).injectionHandler(family);
+		}
+		return instance;
 	}
 
 }
