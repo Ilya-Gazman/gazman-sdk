@@ -41,11 +41,12 @@ public class Factory {
 			instance = ClassConstructor.construcSingleTon(family, clasToUse);
 		}
 		else{
-			instance = ClassConstructor.construct(clasToUse);
+			instance = ClassConstructor.construct(family, clasToUse);
+			if (instance instanceof Injector) {
+				((Injector) instance).injectionHandler(family);
+			}
 		}
-		if (instance instanceof Injector) {
-			((Injector) instance).injectionHandler(family);
-		}
+		
 		return instance;
 	}
 
@@ -95,11 +96,12 @@ public class Factory {
 			instance = ClassConstructor.construcSingleTon(family, clasToUse, params);
 		}
 		else{
-			instance = ClassConstructor.construct(clasToUse, params);
+			instance = ClassConstructor.construct(family, clasToUse, params);
+			if (instance instanceof Injector) {
+				((Injector) instance).injectionHandler(family);
+			}
 		}
-		if (instance instanceof Injector) {
-			((Injector) instance).injectionHandler(family);
-		}
+		
 		return instance;
 	}
 
