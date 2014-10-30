@@ -26,18 +26,21 @@ class ClassConstructor {
 		Object instance = map.get(family);
 		if(instance == null){
 			if(params.length > 0){
-				instance = construct(clasToUse, params);
+				instance = construct(family, clasToUse, params);
 			}
 			else{
-				instance = construct(clasToUse);
+				instance = construct(family, clasToUse);
 			}
 			map.put(family, instance);
+			if (instance instanceof Injector) {
+				((Injector) instance).injectionHandler(family);
+			}
 		}
 		return (T) instance;
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T construct(Class<?> clasToUse) {
+	public static <T> T construct(String family, Class<?> clasToUse) {
 		try {
 			return (T) clasToUse.newInstance();
 		} catch (InstantiationException e) {
@@ -49,7 +52,7 @@ class ClassConstructor {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T construct(Class<?> clasToUse, Object... params) {
+	public static <T> T construct(String family, Class<?> clasToUse, Object... params) {
 		Constructor<?>[] constructors = clasToUse.getConstructors();
 		for (Constructor<?> constructor : constructors) {
 			try {
@@ -58,7 +61,7 @@ class ClassConstructor {
 					continue;
 				}
 				return (T) constructor.newInstance(params);
-
+				
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
